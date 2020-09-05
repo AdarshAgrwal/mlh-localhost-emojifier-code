@@ -11,8 +11,8 @@ app.use(cors({
 
 app.use(express.static(__dirname + "/../dist/"));
 
-const uriBase = 'https://eastus.api.cognitive.microsoft.com/face/v1.0/detect/';
-const subscriptionKey = 'dontstealmykeypls';
+const uriBase = 'https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect/'; // May have to change this!
+const subscriptionKey = 'dontstealmykeypls'; // Yes, you should change this. 
 
 const port = 3000;
 
@@ -34,7 +34,16 @@ app.post('/', (req, res) => {
   };
 
   // TODO: Send Request to Face API
+  request.post(options, (error, response, body) => {
+    console.log(body)
+    res.setHeader('Content-Type', 'application/json');
+    res.send(body)
+    if(response.statusCode == "200"){
+      saveFace(imageUrl, JSON.stringify(body));
+    }
+  })
   // TODO: Send Face API response to front-end
+  
   // TODO: Save Face API response to database
 });
 
